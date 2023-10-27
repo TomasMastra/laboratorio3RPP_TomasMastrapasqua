@@ -6,7 +6,7 @@
     <title>Document</title>
 
     <style>/* mastrapasqua tomas 3C*/
-        /* TABLA */
+
         table {
             border-collapse: collapse;
             width: 80%;
@@ -22,20 +22,21 @@
             text-align: left;
         }
 
-        /* FORM */
         th {
-            background-color: #af4c4c;
+            background-color: #919090;
             color: white;
             border: 1px solid black;
         }
 
-        /* Estilos para las celdas de la tabla */
         td {
             border: 1px solid rgb(0, 0, 0);
+            border: 1px solid rgb(0, 0, 0);
+            padding: 8px;
+
         }
 
         button {
-            background-color: #000000;
+            background-color: #ff0000;
             color: white;
             padding: 10px 15px;
             border: none;
@@ -113,7 +114,7 @@
     <div class="form-container">
         <form id="formAbm" style="display: none;" class="form-Abm" index="-1">
               <t1>CARGAR</t1> </br>
-                                
+
             <label for="nombre">nombre:</label><br>
             <input type="text" id="nombre" name="nombre" required><br>
         
@@ -160,11 +161,11 @@
         <Datos id="datosTabla"> 
             <Form id="formTabla"> 
                 <h1 >Form Datos</h1>
-                <label for="filtroVehiculo">Filtrar Por:</label>
-                <select id="filtroVehiculo" name="tipoPersona" onchange="cambiarFiltro()">
+                <label for="filtroPersona">Filtrar Por:</label>
+                <select id="filtroPersona" name="filtroPersona" onchange="filtrarDatos(this.value)">
                     <option value="todos">todos</option>
-                    <option value="heroe">Aereo</option>
-                    <option value="villano">Terrestre</option>
+                    <option value="heroe">Heroe</option>
+                    <option value="villano">Villano</option>
                 </select><br><br>
                 <label for="promedio">Calcular edad Promedio:</label>
             <input type="number" id="promedio"  name="promedio" required readonly>
@@ -172,31 +173,34 @@
     
             <label >Mostrar Columnas:</label></br>
     
-            <label for="checkboxNombre">Modelo</label> 
+            <label for="checkboxId">ID ></label> 
+            <input type="checkbox" id="checkboxId" name="checkboxId" onclick="ocultarFila(0)">
+
+            <label for="checkboxNombre">Modelo ></label> 
             <input type="checkbox" id="checkboxNombre" name="checkboxNombre" onclick="ocultarFila(1)">
             
-            <label for="checkboxApellido">Apellido</label>
+            <label for="checkboxApellido">Apellido ></label>
             <input type="checkbox" id="checkboxAnoFabApellido" name="checkboxApellido" onclick="ocultarFila(2)">
             
-            <label for="checkboxEdad">Edad</label>
+            <label for="checkboxEdad">Edad ></label>
             <input type="checkbox" id="checkboxEdad" name="checkboxEdad" onclick="ocultarFila(3)">
             
-            <label for="checkboxAlterEgo">AlterEgo</label>
+            <label for="checkboxAlterEgo">AlterEgo ></label>
             <input type="checkbox" id="checkboxAlterEgo" name="checkboxAlterEgi" onclick="ocultarFila(4)">
             
-            <label for="checkboxCiudad">Ciudad</label>
+            <label for="checkboxCiudad">Ciudad ></label>
             <input type="checkbox" id="checkboxCiudad" name="checkboxCiudad" onclick="ocultarFila(5)">
             
-            <label for="checkboxPublicado">Publicado</label>
+            <label for="checkboxPublicado">Publicado ></label>
             <input type="checkbox" id="checkboxPublicado" name="checkboxPublicado" onclick="ocultarFila(6)">
             
-            <label for="checkboxEnemigo">Enemigo</label>
+            <label for="checkboxEnemigo">Enemigo ></label>
             <input type="checkbox" id="checkboxEnemigo" name="checkboxEnemigo" onclick="ocultarFila(7)">
 
-            <label for="checkboxRobos">Robos</label>
+            <label for="checkboxRobos">Robos ></label>
             <input type="checkbox" id="checkboxRobos" name="checkboxRobos" onclick="ocultarFila(8)">
 
-            <label for="checkboxAsesinatos">Asesinatos</label>
+            <label for="checkboxAsesinatos">Asesinatos ></label>
             <input type="checkbox" id="checkboxAsesinatos" name="checkboxAsesinatos" onclick="ocultarFila(9)">
             
     
@@ -226,262 +230,250 @@
     
     </Datos>
        
-        <script src="recuperatorioLabo3.js"></script>
+    <script src="recuperatorioLabo3.js"></script>
     
     
     
     
-        <script>
-            function mostrarForm() {
-                var formulario = document.getElementById("formAbm");
-                var tabla = document.getElementById("tablaPersonas");
-                var botonAgregar = document.getElementById("botonAgregar");
-                var datosTabla = document.getElementById("datosTabla");
-    
-    
-                formulario.style.display = (formulario.style.display === "none") ? "block" : "none";
-                datosTabla.style.display = (datosTabla.style.display === "none") ? "block" : "none";
-    
-            }
-    
-            function mostrarFormConDatos(tabla)
-            {
-                var formulario = document.getElementById("formAbm");
-                var datosTabla = document.getElementById("datosTabla");
-
-                var fila = event.target.parentNode;
-
-                var celdas = fila.getElementsByTagName("td");
-
-              
-                var nombre = celdas[1].innerText;
-                var apellido = celdas[2].innerText;
-                var edad = celdas[3].innerText;
-                var alterEgo = celdas[4].innerText;
-                var ciudad = celdas[5].innerText;
-                var publicado = celdas[6].innerText;
-                var enemigo = celdas[7].innerText;
-                var robos = celdas[8].innerText;
-                var asesinatos = celdas[9].innerText;
-
- 
-                var index = fila.rowIndex;
-                var formAbm = document.getElementById("formAbm");
-                index = parseInt(index);
-
-                formAbm.setAttribute("index", index);
-
-                var indexForm = formAbm.getAttribute("index");
-
-                cargarForm(nombre, apellido, edad, alterEgo, ciudad, publicado, enemigo, robos, asesinatos, index)
-
-                formulario.style.display = (formulario.style.display === "none") ? "block" : "none";
-                datosTabla.style.display = (datosTabla.style.display === "none") ? "block" : "none";
-            }
-    
-            function cargarForm(nombre, apellido, edad, alterEgo, ciudad, publicado, enemigo, robos, asesinatos, index)
-            {
+    <script>
+        function mostrarForm() {
+            var formulario = document.getElementById("formAbm");
+            var tabla = document.getElementById("tablaPersonas");
+            var botonAgregar = document.getElementById("botonAgregar");
+            var datosTabla = document.getElementById("datosTabla");
 
 
-                if (nombre !== null && apellido !== null && edad !== null && alterEgo !== null && ciudad !== null && publicado !== null && enemigo !== null && 
-                robos !== null && asesinatos !== null) {
-
-                    document.getElementById("nombre").value = nombre;
-                    document.getElementById("apellido").value = apellido;
-
-                    /* document.getElementById("anofab").value = anoFab;
-                        document.getElementById("velMax").value = velMax;*/
-                
-                    var tipoPersonaSelect = document.getElementById("tipoPersona");
-                    var botonAgregar = document.getElementById("botonAgregar");
-                    //tipoVehiculoSelect.disabled = true;      
-                    //botonAgregar.disabled = true;     
-                    //actualizarCampos(tipoVehiculoSelect); 
-
-
-
-                }
-
-            }
-
-            function modificarTabla(tabla)
-            {
-
-                var fila = event.target.parentNode;
-                var celdas = fila.getElementsByTagName("td");
-                var index = document.getElementById("formAbm").getAttribute("index");
-                var tipoVehiculo = document.getElementById("tipoPersona");
-
-
-                var nombre = document.getElementById("nombre").value;
-                var apellido = document.getElementById("apellido").value;
-                var edad = document.getElementById("edad").value;
-                var alterEgo = document.getElementById("alterEgo").value;
-                var ciudad = document.getElementById("ciudad").value;
-                var publicado = document.getElementById("publicado").value;
-                var enemigo = document.getElementById("enemigo").value;
-                var robos = document.getElementById("robos").value;
-                var asesinatos = document.getElementById("asesinatos").value;
-
-                //modificarPersona(index-1, nombre, apellido, edad, alterEgo, ciudad, publicado, enemigo, robos, asesinatos);
-                //actualizarTabla(index, nombre, apellido, edad, alterEgo, ciudad, publicado, robos, asesinatos);
-
-                if(validar(tipoPersona.value, generarPersona()) == true) {
-                    modificarPersona(index-1, nombre, apellido, edad, alterEgo, ciudad, publicado, enemigo, robos, asesinatos);
-                    actualizarTabla(index, nombre, apellido, edad, alterEgo, ciudad, publicado, robos, asesinatos);
-                    alert("Modificado con exito");
-                }else
-                {
-                    alert("Error al modificar, intente de nuevo");
-                }
-
-                restablecerForm();
-
-            }
-
-            function EliminarFilaTabla() {
-
-                var formAbm = document.getElementById("formAbm");
-                var index = parseInt(formAbm.getAttribute("index"));
-                
-                if (!isNaN(index) && index > 0) {
-                    var tabla = document.getElementById("tablaPersonas");
-                    tabla.deleteRow(index);
-                    eliminarPersona(index - 1);
-                    formAbm.setAttribute("index", -1);
-                } else {
-                    console.error("Índice de fila no válido o no selecciono una persona");
-                }
+            formulario.style.display = (formulario.style.display === "none") ? "block" : "none";
+            datosTabla.style.display = (datosTabla.style.display === "none") ? "block" : "none";
 
         }
 
+        function mostrarFormConDatos(tabla)
+        {
+            var formulario = document.getElementById("formAbm");
+            var datosTabla = document.getElementById("datosTabla");
 
-            function actualizarTabla(index, nombre, apellido, edad, alterEgo, ciudad, publicado, enemigo, robos, asesinatos) {
-                var fila = document.getElementById("tablaPersonas").rows[index];
+            var fila = event.target.parentNode;
 
-                if (fila) {
-                    fila.cells[1].textContent = nombre;
-                    fila.cells[2].textContent = apellido;
-                    fila.cells[3].textContent = edad;
-                    fila.cells[4].textContent = alterEgo || '-';
-                    fila.cells[5].textContent = ciudad || '-';
-                    fila.cells[6].textContent = publicado || '-';
-                    fila.cells[7].textContent = enemigo || '-';
-                    fila.cells[8].textContent = robos || '-';
-                    fila.cells[9].textContent = asesinatos || '-';
+            var celdas = fila.getElementsByTagName("td");
 
-                }
+            
+            var nombre = celdas[1].innerText;
+            var apellido = celdas[2].innerText;
+            var edad = celdas[3].innerText;
+            var alterEgo = celdas[4].innerText;
+            var ciudad = celdas[5].innerText;
+            var publicado = celdas[6].innerText;
+            var enemigo = celdas[7].innerText;
+            var robos = celdas[8].innerText;
+            var asesinatos = celdas[9].innerText;
+
+
+            var index = fila.rowIndex;
+            var formAbm = document.getElementById("formAbm");
+            index = parseInt(index);
+
+            formAbm.setAttribute("index", index);
+
+            var indexForm = formAbm.getAttribute("index");
+
+            cargarForm(nombre, apellido, edad, alterEgo, ciudad, publicado, enemigo, robos, asesinatos, index)
+
+            formulario.style.display = (formulario.style.display === "none") ? "block" : "none";
+            datosTabla.style.display = (datosTabla.style.display === "none") ? "block" : "none";
+        }
+
+        function cargarForm(nombre, apellido, edad, alterEgo, ciudad, publicado, enemigo, robos, asesinatos, index)
+        {
+
+
+            if (nombre !== null && apellido !== null && edad !== null && alterEgo !== null && ciudad !== null && publicado !== null && enemigo !== null && 
+            robos !== null && asesinatos !== null) {
+
+                document.getElementById("nombre").value = nombre;
+                document.getElementById("apellido").value = apellido;
+            
+                var tipoPersonaSelect = document.getElementById("tipoPersona");
+                var botonAgregar = document.getElementById("botonAgregar");
+
             }
-    
-            function ocultarFila(idFila)
+
+        }
+
+        function modificarTabla(tabla)
+        {
+
+            var fila = event.target.parentNode;
+            var celdas = fila.getElementsByTagName("td");
+            var index = document.getElementById("formAbm").getAttribute("index");
+            var tipoVehiculo = document.getElementById("tipoPersona");
+
+
+            var nombre = document.getElementById("nombre").value;
+            var apellido = document.getElementById("apellido").value;
+            var edad = document.getElementById("edad").value;
+            var alterEgo = document.getElementById("alterEgo").value;
+            var ciudad = document.getElementById("ciudad").value;
+            var publicado = document.getElementById("publicado").value;
+            var enemigo = document.getElementById("enemigo").value;
+            var robos = document.getElementById("robos").value;
+            var asesinatos = document.getElementById("asesinatos").value;
+
+            if(validar(tipoPersona.value, generarPersona()) == true) {
+                modificarPersona(index-1, nombre, apellido, edad, alterEgo, ciudad, publicado, enemigo, robos, asesinatos);
+                actualizarTabla(index, nombre, apellido, edad, alterEgo, ciudad, publicado, robos, asesinatos);
+                alert("Modificado con exito");
+            }else
             {
-                var tabla = document.getElementById("tablaPersonas");
-                var filas = tabla.rows;
-
-                for (var i = 0; i < filas.length; i++) {
-                var celda = filas[i].cells[idFila];
-                    if (celda) {
-                        celda.style.display = celda.style.display === 'none' ? 'table-cell' : 'none';
-                    }
-                }
+                alert("Error al modificar, intente de nuevo");
             }
 
-            function filtrarDatos() {
-            var filtro = document.getElementById("filtroVehiculo").value;
+            restablecerForm();
+
+        }
+
+        function EliminarFilaTabla() {
+
+            var formAbm = document.getElementById("formAbm");
+            var index = parseInt(formAbm.getAttribute("index"));
+            
+            if (!isNaN(index) && index > 0) {
+                var tabla = document.getElementById("tablaPersonas");
+                tabla.deleteRow(index);
+                eliminarPersona(index - 1);
+                formAbm.setAttribute("index", -1);
+            } else {
+                console.error("Índice de fila no válido o no selecciono una persona");
+            }
+
+    }
+
+
+        function actualizarTabla(index, nombre, apellido, edad, alterEgo, ciudad, publicado, enemigo, robos, asesinatos) {
+            var fila = document.getElementById("tablaPersonas").rows[index];
+
+            if (fila) {
+                fila.cells[1].textContent = nombre;
+                fila.cells[2].textContent = apellido;
+                fila.cells[3].textContent = edad;
+                fila.cells[4].textContent = alterEgo || '-';
+                fila.cells[5].textContent = ciudad || '-';
+                fila.cells[6].textContent = publicado || '-';
+                fila.cells[7].textContent = enemigo || '-';
+                fila.cells[8].textContent = robos || '-';
+                fila.cells[9].textContent = asesinatos || '-';
+
+            }
+        }
+
+        function ocultarFila(idFila)
+        {
+            var tabla = document.getElementById("tablaPersonas");
+            var filas = tabla.rows;
 
             for (var i = 0; i < filas.length; i++) {
-                var altMaxCelda = filas[i].cells[4].textContent; 
-                var cantPueCelda = filas[i].cells[6].textContent; 
+            var celda = filas[i].cells[idFila];
+                if (celda) {
+                    celda.style.display = celda.style.display === 'none' ? 'table-cell' : 'none';
+                }
+            }
+        }
 
-                if (filtro === "heroe" && robos != "-") {
-                    // Ocultar la fila si es "aereo" y altMax es "-"
+        function filtrarDatos(filtro) {
+
+            var tabla = document.getElementById("tablaPersonas");
+            var filas = tabla.rows;
+
+            for (var i = 0; i < filas.length; i++) {
+                var alterEgo = filas[i].cells[4].textContent; 
+                var enemigo = filas[i].cells[7].textContent; 
+
+                if (filtro === "heroe" && alterEgo == "-") {
                     filas[i].style.display = "none";
-                } else if (filtro === "villano" && alterEgo != "-") {
-                    // Ocultar la fila si es "terrestre" y cantPue es "-"
+                } else if (filtro === "villano" && enemigo == "-") {
                     filas[i].style.display = "none";
                 } else{
-                    // Si no es "aereo" ni "terrestre", mostrar todas las filas
                     filas[i].style.display = "table-row";
                 }
             }
         }
 
 
-    
-            function restablecerForm()
-            {
-                var tipoPersonaSelect = document.getElementById("tipoPersona");
-                var botonAgregar = document.getElementById("botonAgregar");
-                var indexForm = document.getElementById("index");
 
-                botonAgregar.disabled = false;   
-                document.getElementById("formAbm").setAttribute("index", -1);
+        function restablecerForm()
+        {
+            var tipoPersonaSelect = document.getElementById("tipoPersona");
+            var botonAgregar = document.getElementById("botonAgregar");
+            var indexForm = document.getElementById("index");
 
-            }
+            botonAgregar.disabled = false;   
+            document.getElementById("formAbm").setAttribute("index", -1);
 
-            function ordenarPor(columna) {
-                var tabla = document.getElementById("tablaPersonas");
-                var filas = tabla.rows;
-                var esNumerico = ["id", "edad", "publicado", "robos", "asesinatos"];
+        }
 
-                var filasArray = Array.from(filas);
+        function ordenarPor(columna) {
+            var tabla = document.getElementById("tablaPersonas");
+            var filas = tabla.rows;
+            var esNumerico = ["id", "edad", "publicado", "robos", "asesinatos"];
 
-                var filasDatos = filasArray.slice(1);
+            var filasArray = Array.from(filas);
 
-                filasDatos.sort(function(a, b) {
-                    var valorA = a.cells[columna].textContent.trim();
-                    var valorB = b.cells[columna].textContent.trim();
+            var filasDatos = filasArray.slice(1);
 
-                    if (esNumerico.includes(columna)) {
-                        valorA = parseFloat(valorA) || 0;
-                        valorB = parseFloat(valorB) || 0;
-                    }
+            filasDatos.sort(function(a, b) {
+                var valorA = a.cells[columna].textContent.trim();
+                var valorB = b.cells[columna].textContent.trim();
 
-                    if (valorA < valorB) {
-                        return -1;
-                    } else if (valorA > valorB) {
-                        return 1;
-                    } else {
-                        return 0;
-                    }
-                });
-
-                // Reorganiza las filas en la tabla
-                for (var i = 0; i < filasDatos.length; i++) {
-                    tabla.appendChild(filasDatos[i]);
+                if (esNumerico.includes(columna)) {
+                    valorA = parseFloat(valorA) || 0;
+                    valorB = parseFloat(valorB) || 0;
                 }
 
-                obtenerListaPersonas(obtenerArrayPersonas());
-            }
-
-            function obtenerArrayPersonas() {
-                var tabla = document.getElementById("tablaPersonas");
-                var filas = tabla.rows;
-                var arrayPersonas = [];
-
-                for (var i = 1; i < filas.length; i++) { 
-                    var celdas = filas[i].cells;
-                    var persona = {
-                        id: celdas[0].textContent,
-                        nombre: celdas[1].textContent,
-                        apellido: celdas[2].textContent,
-                        edad: celdas[3].textContent,
-                        alterEgo: celdas[4].textContent,
-                        ciudad: celdas[5].textContent,
-                        publicado: celdas[6].textContent,
-                        enemigo: celdas[7].textContent,
-                        robos: celdas[8].textContent,
-                        asesinatos: celdas[9].textContent
-
-                    };
-                    arrayPersonas.push(persona);
+                if (valorA < valorB) {
+                    return -1;
+                } else if (valorA > valorB) {
+                    return 1;
+                } else {
+                    return 0;
                 }
+            });
 
-                return arrayPersonas;
+            // Reorganiza las filas en la tabla
+            for (var i = 0; i < filasDatos.length; i++) {
+                tabla.appendChild(filasDatos[i]);
             }
 
+            obtenerListaPersonas(obtenerArrayPersonas());
+        }
+
+        function obtenerArrayPersonas() {
+            var tabla = document.getElementById("tablaPersonas");
+            var filas = tabla.rows;
+            var arrayPersonas = [];
+
+            for (var i = 1; i < filas.length; i++) { 
+                var celdas = filas[i].cells;
+                var persona = {
+                    id: celdas[0].textContent,
+                    nombre: celdas[1].textContent,
+                    apellido: celdas[2].textContent,
+                    edad: celdas[3].textContent,
+                    alterEgo: celdas[4].textContent,
+                    ciudad: celdas[5].textContent,
+                    publicado: celdas[6].textContent,
+                    enemigo: celdas[7].textContent,
+                    robos: celdas[8].textContent,
+                    asesinatos: celdas[9].textContent
+
+                };
+                arrayPersonas.push(persona);
+            }
+
+            return arrayPersonas;
+        }
 
 
-        </script>
+
+    </script>
 </body>
 </html>

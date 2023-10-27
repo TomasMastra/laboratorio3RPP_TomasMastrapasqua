@@ -160,7 +160,6 @@ function cargarPersona(tipo, persona) {
                 cellEnemigo.innerHTML = "-";
                 cellRobos.innerHTML = "-";
                 cellAsesinatos.innerHTML = "-";
-                //listaAereos.push(persona);
             } else if (persona instanceof Villano) {
                 cellAlterEgo.innerHTML = "-";
                 cellCiudad.innerHTML = "-";
@@ -168,7 +167,6 @@ function cargarPersona(tipo, persona) {
                 cellEnemigo.innerHTML = persona.enemigo || "-";
                 cellRobos.innerHTML = persona.robos || "-";
                 cellAsesinatos.innerHTML = persona.asesinatos || "-";
-                //listaVill.push(persona);
             } else {
                 cellAlterEgo.innerHTML = "-";
                 cellCiudad.innerHTML = "-";
@@ -263,6 +261,7 @@ function buscarPersona(id) {
 }
 
 // valida todo lo pedido en el ejercicio, que se ingresen datos y sus respectivas validaciones para cada atributo
+// no verifico edad <100 porque quizas algun heroe/villano es inmortal 
 function validar(tipoPersona, persona) {
     if (persona.nombre !== "" && persona.apellido !== "" && persona.edad !== "" && persona.edad > -1) {
         if (tipoPersona === "heroe") {
