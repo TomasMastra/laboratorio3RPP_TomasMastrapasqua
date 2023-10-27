@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>/* mastrapasqua tomas 3C*/
+        /* TABLA */
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        /* FORM */
+        th {
+            background-color: #af4c4c;
+            color: white;
+            border: 1px solid black;
+        }
+
+        /* Estilos para las celdas de la tabla */
+        td {
+            border: 1px solid rgb(0, 0, 0);
+        }
+
+        button {
+            background-color: #000000;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .botonAgregar {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .botonCancelar{
+            background-color: #2370b9;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .botonModificar{
+            background-color: #ff6600;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .botonEliminar{
+            background-color: #ff0000;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .botonCalcular{
+            background-color: #23a7b9;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[disabled] {
+            background-color: #f0f0f0;
+            color: #888; 
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column; 
+            align-items: center;   
+            justify-content: center; 
+            width: 80%;
+            margin: 20px;
+        }
+
+        /*MASTRAPASQUA TOMAS 3C*/
+   
+       
+</style>
+    
+</head>
+<body>
+    
+    <div class="form-container">
+        <form id="formAbm" style="display: none;" class="form-Abm" index="-1">
+              <t1>CARGAR</t1> </br>
+                                
+            <label for="nombre">nombre:</label><br>
+            <input type="text" id="nombre" name="nombre" required><br>
+        
+            <label for="apellido">apellido:</label><br>
+            <input type="text" id="apellido" name="apellido" required><br>
+        
+            <label for="edad">edad:</label><br>
+            <input type="number" id="edad" name="edad"><br>
+        
+            <label for="alterEgo" id="labelAlterEgo">Alter ego:</label><br>
+            <input type="string" id="alterEgo" name="alterEgo" ><br>
+            
+            <label for="ciudad" id="labelCiudad">Ciudad:</label><br>
+            <input type="text" id="ciudad" name="ciudad" ><br>
+            
+            <label for="publicado" id="labelPublicado">Publicado:</label><br>
+            <input type="number" id="publicado" name="publicado" ><br>
+            
+            <label for="enemigo" id="labelEnemigo">Enemigo:</label><br>
+            <input type="text" id="enemigo" name="enemigo" disabled><br>
+            
+            <label for="robos" id="labelRobos">Robos:</label><br>
+            <input type="number" id="robos" name="robos" disabled><br>
+            
+            <label for="asesinatos" id="labelAsesinatos">Asesinatos:</label><br>
+            <input type="number" id="asesinatos" name="asesinatos" disabled><br>
+            
+        
+            <label for="tipoPersona">Selecciona el tipo de persona:</label>
+            <select id="tipoPersona" name="tipoPersona" onchange="actualizarCampos(this.value)">
+                <option value="heroe">Heroe</option>
+                <option value="villano">Villano</option>
+            </select><br><br>
+        
+            <button type="button" id="botonAgregar" class="botonAgregar" onclick="mostrarForm(); cargarPersona(tipoPersona.value, generarPersona());">Agregar</button>
+            <button type="button" id="botonCancelar" class="botonCancelar" onclick="mostrarForm()">Cancelar</button><br>   </br>
+            <button type="button" id="botonEliminar" class="botonEliminar" onclick="mostrarForm(); EliminarFilaTabla()">Eliminar</button>
+            <button type="button" id="botonModificar" class="botonModificar" onclick="mostrarForm(); modificarTabla()">Modificar</button><br>
+
+    
+        </form>
+
+
+        <Datos id="datosTabla"> 
+            <Form id="formTabla"> 
+                <h1 >Form Datos</h1>
+                <label for="filtroVehiculo">Filtrar Por:</label>
+                <select id="filtroVehiculo" name="tipoPersona" onchange="cambiarFiltro()">
+                    <option value="todos">todos</option>
+                    <option value="heroe">Aereo</option>
+                    <option value="villano">Terrestre</option>
+                </select><br><br>
+                <label for="promedio">Calcular edad Promedio:</label>
+            <input type="number" id="promedio"  name="promedio" required readonly>
+            <button type="button" class="botonCalcular" onclick="calcularEdadPromedio()">Calcular</button> </br>
+    
+            <label >Mostrar Columnas:</label></br>
+    
+            <label for="checkboxNombre">Modelo</label> 
+            <input type="checkbox" id="checkboxNombre" name="checkboxNombre" onclick="ocultarFila(1)">
+            
+            <label for="checkboxApellido">Apellido</label>
+            <input type="checkbox" id="checkboxAnoFabApellido" name="checkboxApellido" onclick="ocultarFila(2)">
+            
+            <label for="checkboxEdad">Edad</label>
+            <input type="checkbox" id="checkboxEdad" name="checkboxEdad" onclick="ocultarFila(3)">
+            
+            <label for="checkboxAlterEgo">AlterEgo</label>
+            <input type="checkbox" id="checkboxAlterEgo" name="checkboxAlterEgi" onclick="ocultarFila(4)">
+            
+            <label for="checkboxCiudad">Ciudad</label>
+            <input type="checkbox" id="checkboxCiudad" name="checkboxCiudad" onclick="ocultarFila(5)">
+            
+            <label for="checkboxPublicado">Publicado</label>
+            <input type="checkbox" id="checkboxPublicado" name="checkboxPublicado" onclick="ocultarFila(6)">
+            
+            <label for="checkboxEnemigo">Enemigo</label>
+            <input type="checkbox" id="checkboxEnemigo" name="checkboxEnemigo" onclick="ocultarFila(7)">
+
+            <label for="checkboxRobos">Robos</label>
+            <input type="checkbox" id="checkboxRobos" name="checkboxRobos" onclick="ocultarFila(8)">
+
+            <label for="checkboxAsesinatos">Asesinatos</label>
+            <input type="checkbox" id="checkboxAsesinatos" name="checkboxAsesinatos" onclick="ocultarFila(9)">
+            
+    
+    
+    
+        </Form>
+
+        <div id="tablaDatos"> 
+            <table id="tablaPersonas" ondblclick="mostrarFormConDatos(this)">
+                <tr>
+                    <th><button onclick="ordenarPor(0)">ID</button></th>
+                    <th><button onclick="ordenarPor(1)">Nombre</button></th>
+                    <th><button onclick="ordenarPor(2)">Apellido</button></th>
+                    <th><button onclick="ordenarPor(3)">Edad</button></th>
+                    <th><button onclick="ordenarPor(4)">AlterEgo</button></th>
+                    <th><button onclick="ordenarPor(5)">Ciudad</button></th>
+                    <th><button onclick="ordenarPor(6)">Publicado</button></th>
+                    <th><button onclick="ordenarPor(7)">Enemigo</button></th>
+                    <th><button onclick="ordenarPor(8)">Robos</button></th>
+                    <th><button onclick="ordenarPor(9)">Asesinatos</button></th>
+
+                </tr>
+            </table>
+            <button type="button" id="botonAgregar" class="botonAgregar" onclick="mostrarForm()">Agregar</button>
+        </div>
+        
+    
+    </Datos>
+       
+        <script src="recuperatorioLabo3.js"></script>
+    
+    
+    
+    
+        <script>
+            function mostrarForm() {
+                var formulario = document.getElementById("formAbm");
+                var tabla = document.getElementById("tablaPersonas");
+                var botonAgregar = document.getElementById("botonAgregar");
+                var datosTabla = document.getElementById("datosTabla");
+    
+    
+                formulario.style.display = (formulario.style.display === "none") ? "block" : "none";
+                datosTabla.style.display = (datosTabla.style.display === "none") ? "block" : "none";
+    
+            }
+    
+            function mostrarFormConDatos(tabla)
+            {
+                var formulario = document.getElementById("formAbm");
+                var datosTabla = document.getElementById("datosTabla");
+
+                var fila = event.target.parentNode;
+
+                var celdas = fila.getElementsByTagName("td");
+
+              
+                var nombre = celdas[1].innerText;
+                var apellido = celdas[2].innerText;
+                var edad = celdas[3].innerText;
+                var alterEgo = celdas[4].innerText;
+                var ciudad = celdas[5].innerText;
+                var publicado = celdas[6].innerText;
+                var enemigo = celdas[7].innerText;
+                var robos = celdas[8].innerText;
+                var asesinatos = celdas[9].innerText;
+
+ 
+                var index = fila.rowIndex;
+                var formAbm = document.getElementById("formAbm");
+                index = parseInt(index);
+
+                formAbm.setAttribute("index", index);
+
+                var indexForm = formAbm.getAttribute("index");
+
+                cargarForm(nombre, apellido, edad, alterEgo, ciudad, publicado, enemigo, robos, asesinatos, index)
+
+                formulario.style.display = (formulario.style.display === "none") ? "block" : "none";
+                datosTabla.style.display = (datosTabla.style.display === "none") ? "block" : "none";
+            }
+    
+            function cargarForm(nombre, apellido, edad, alterEgo, ciudad, publicado, enemigo, robos, asesinatos, index)
+            {
+
+
+                if (nombre !== null && apellido !== null && edad !== null && alterEgo !== null && ciudad !== null && publicado !== null && enemigo !== null && 
+                robos !== null && asesinatos !== null) {
+
+                    document.getElementById("nombre").value = nombre;
+                    document.getElementById("apellido").value = apellido;
+
+                    /* document.getElementById("anofab").value = anoFab;
+                        document.getElementById("velMax").value = velMax;*/
+                
+                    var tipoPersonaSelect = document.getElementById("tipoPersona");
+                    var botonAgregar = document.getElementById("botonAgregar");
+                    //tipoVehiculoSelect.disabled = true;      
+                    //botonAgregar.disabled = true;     
+                    //actualizarCampos(tipoVehiculoSelect); 
+
+
+
+                }
+
+            }
+
+            function modificarTabla(tabla)
+            {
+
+                var fila = event.target.parentNode;
+                var celdas = fila.getElementsByTagName("td");
+                var index = document.getElementById("formAbm").getAttribute("index");
+                var tipoVehiculo = document.getElementById("tipoPersona");
+
+
+                var nombre = document.getElementById("nombre").value;
+                var apellido = document.getElementById("apellido").value;
+                var edad = document.getElementById("edad").value;
+                var alterEgo = document.getElementById("alterEgo").value;
+                var ciudad = document.getElementById("ciudad").value;
+                var publicado = document.getElementById("publicado").value;
+                var enemigo = document.getElementById("enemigo").value;
+                var robos = document.getElementById("robos").value;
+                var asesinatos = document.getElementById("asesinatos").value;
+
+                //modificarPersona(index-1, nombre, apellido, edad, alterEgo, ciudad, publicado, enemigo, robos, asesinatos);
+                //actualizarTabla(index, nombre, apellido, edad, alterEgo, ciudad, publicado, robos, asesinatos);
+
+                if(validar(tipoPersona.value, generarPersona()) == true) {
+                    modificarPersona(index-1, nombre, apellido, edad, alterEgo, ciudad, publicado, enemigo, robos, asesinatos);
+                    actualizarTabla(index, nombre, apellido, edad, alterEgo, ciudad, publicado, robos, asesinatos);
+                    alert("Modificado con exito");
+                }else
+                {
+                    alert("Error al modificar, intente de nuevo");
+                }
+
+                restablecerForm();
+
+            }
+
+            function EliminarFilaTabla() {
+
+                var formAbm = document.getElementById("formAbm");
+                var index = parseInt(formAbm.getAttribute("index"));
+                
+                if (!isNaN(index) && index > 0) {
+                    var tabla = document.getElementById("tablaPersonas");
+                    tabla.deleteRow(index);
+                    eliminarPersona(index - 1);
+                    formAbm.setAttribute("index", -1);
+                } else {
+                    console.error("Índice de fila no válido o no selecciono una persona");
+                }
+
+        }
+
+
+            function actualizarTabla(index, nombre, apellido, edad, alterEgo, ciudad, publicado, enemigo, robos, asesinatos) {
+                var fila = document.getElementById("tablaPersonas").rows[index];
+
+                if (fila) {
+                    fila.cells[1].textContent = nombre;
+                    fila.cells[2].textContent = apellido;
+                    fila.cells[3].textContent = edad;
+                    fila.cells[4].textContent = alterEgo || '-';
+                    fila.cells[5].textContent = ciudad || '-';
+                    fila.cells[6].textContent = publicado || '-';
+                    fila.cells[7].textContent = enemigo || '-';
+                    fila.cells[8].textContent = robos || '-';
+                    fila.cells[9].textContent = asesinatos || '-';
+
+                }
+            }
+    
+            function ocultarFila(idFila)
+            {
+                var tabla = document.getElementById("tablaPersonas");
+                var filas = tabla.rows;
+
+                for (var i = 0; i < filas.length; i++) {
+                var celda = filas[i].cells[idFila];
+                    if (celda) {
+                        celda.style.display = celda.style.display === 'none' ? 'table-cell' : 'none';
+                    }
+                }
+            }
+
+            function filtrarDatos() {
+            var filtro = document.getElementById("filtroVehiculo").value;
+
+            for (var i = 0; i < filas.length; i++) {
+                var altMaxCelda = filas[i].cells[4].textContent; 
+                var cantPueCelda = filas[i].cells[6].textContent; 
+
+                if (filtro === "heroe" && robos != "-") {
+                    // Ocultar la fila si es "aereo" y altMax es "-"
+                    filas[i].style.display = "none";
+                } else if (filtro === "villano" && alterEgo != "-") {
+                    // Ocultar la fila si es "terrestre" y cantPue es "-"
+                    filas[i].style.display = "none";
+                } else{
+                    // Si no es "aereo" ni "terrestre", mostrar todas las filas
+                    filas[i].style.display = "table-row";
+                }
+            }
+        }
+
+
+    
+            function restablecerForm()
+            {
+                var tipoPersonaSelect = document.getElementById("tipoPersona");
+                var botonAgregar = document.getElementById("botonAgregar");
+                var indexForm = document.getElementById("index");
+
+                botonAgregar.disabled = false;   
+                document.getElementById("formAbm").setAttribute("index", -1);
+
+            }
+
+            function ordenarPor(columna) {
+                var tabla = document.getElementById("tablaPersonas");
+                var filas = tabla.rows;
+                var esNumerico = ["id", "edad", "publicado", "robos", "asesinatos"];
+
+                var filasArray = Array.from(filas);
+
+                var filasDatos = filasArray.slice(1);
+
+                filasDatos.sort(function(a, b) {
+                    var valorA = a.cells[columna].textContent.trim();
+                    var valorB = b.cells[columna].textContent.trim();
+
+                    if (esNumerico.includes(columna)) {
+                        valorA = parseFloat(valorA) || 0;
+                        valorB = parseFloat(valorB) || 0;
+                    }
+
+                    if (valorA < valorB) {
+                        return -1;
+                    } else if (valorA > valorB) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                });
+
+                // Reorganiza las filas en la tabla
+                for (var i = 0; i < filasDatos.length; i++) {
+                    tabla.appendChild(filasDatos[i]);
+                }
+
+                obtenerListaPersonas(obtenerArrayPersonas());
+            }
+
+            function obtenerArrayPersonas() {
+                var tabla = document.getElementById("tablaPersonas");
+                var filas = tabla.rows;
+                var arrayPersonas = [];
+
+                for (var i = 1; i < filas.length; i++) { 
+                    var celdas = filas[i].cells;
+                    var persona = {
+                        id: celdas[0].textContent,
+                        nombre: celdas[1].textContent,
+                        apellido: celdas[2].textContent,
+                        edad: celdas[3].textContent,
+                        alterEgo: celdas[4].textContent,
+                        ciudad: celdas[5].textContent,
+                        publicado: celdas[6].textContent,
+                        enemigo: celdas[7].textContent,
+                        robos: celdas[8].textContent,
+                        asesinatos: celdas[9].textContent
+
+                    };
+                    arrayPersonas.push(persona);
+                }
+
+                return arrayPersonas;
+            }
+
+
+
+        </script>
+</body>
+</html>
